@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CalorieCounterV1.Models.Podcast>
+
+@{
+    ViewBag.Title = "Podcasts";
+}
+
+    <h2>Podcasts</h2>
+    <div>
+        @foreach (var item in Model)
+        {
+            @Html.Partial("_PodcastItem", item)
+        }
+
+    </div>
+
+
+
+<hr />
+

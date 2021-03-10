@@ -1,0 +1,47 @@
+﻿@model CalorieCounterV1.Models.HomeViewModel
+@using CalorieCounterV1.Models
+
+@{
+    ViewBag.Title = "Home";
+}
+
+
+<hr />
+@Html.Partial("_Carousel", Model.Features)
+<hr />
+
+<div class="text-center">
+    <h2>Welcome</h2>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus, diam vitae posuere venenatis, lorem mauris pellentesque urna, vel lacinia dolor quam semper nisl. Etiam efficitur nisi enim, non pellentesque magna tempus at. Phasellus ac egestas nibh. Donec nibh nibh, condimentum quis gravida nec, semper in diam. Maecenas mi nulla, ornare vel dui ut, sodales dignissim lectus. Curabitur metus sem, porta quis mattis tincidunt, lacinia a nisl. Nunc molestie vitae lorem ac placerat. Aliquam non euismod libero, ac lobortis justo. Duis condimentum, sapien nec venenatis facilisis, libero quam varius arcu, vel aliquet lorem neque eget lectus. Mauris lorem ex, vulputate in sollicitudin vitae, varius et ex. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras vulputate volutpat nisi. Nunc ac sodales leo, vel dignissim mi. Vivamus convallis risus nulla. Proin elementum non massa eu ornare. Nulla elementum eget metus vel hendrerit.
+    </p>
+</div>
+<hr />
+
+<h2 class="text-center">Features</h2>
+
+<div>
+
+    @if (Model.FeaturePodcast != null)
+    {
+        @Html.Partial("_PodcastItem", Model.FeaturePodcast)
+    }
+
+    @Html.Partial("_CalorieItem", Model.FeatureItem)
+    @Html.Partial("_CalorieItem", Model.FeatureItem2)
+</div>
+
+<div>
+    <b>
+
+
+
+
+
+
+
+
+
+
+    </b>
+</div>

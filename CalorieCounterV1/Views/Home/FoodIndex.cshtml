@@ -1,0 +1,130 @@
+﻿@using CalorieCounterV1.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<CalorieCounterV1.Models.CalorieItem>
+
+@{
+    ViewBag.Title = "Calorific Items";
+}
+
+@Scripts.Render("~/Scripts/pj_no.js")
+
+
+<h2>Calorific Items</h2>
+
+
+<hr />
+<div>
+
+    @using (Html.BeginForm())
+    {
+        <p>
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
+    @if (ViewBag.CurrentCat == null || ViewBag.CurrentCat == 0)
+    {
+        <button class="btn btn-primary">All</button>
+    }
+    else
+    {
+        @Html.ActionLink("All", "FoodIndex", "Home", new { @class = "btn btn-info" })
+    }
+
+    <b>   </b>
+
+    @foreach (Category item in ViewBag.Categories)
+    {
+        if (item.CategoryId == ViewBag.CurrentCat)
+        {
+            <button class="btn btn-primary">@item.Name</button>
+        }
+        else
+        {
+            @Html.ActionLink(item.Name, "FoodIndex", "Home", new { @catId = item.CategoryId }, new { @class = "btn btn-info" })
+        }
+        <b></b>
+    }
+</div>
+
+
+<br />
+
+<table id="mytable" class="table table-hover">
+    <tr>
+        <th></th>
+        <th>
+            @Html.ActionLink("Name", "FoodIndex", "Home", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter }, null)
+        </th>
+
+        <th>
+            Category
+        </th>
+        <th>
+            @Html.ActionLink("Calories", "FoodIndex", "Home", new { sortOrder = ViewBag.CalorieSort, currentFilter = ViewBag.CurrentFilter }, null)
+        </th>
+        <th>
+            Serving Size
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        
+        <tr onclick="location.href = '@Url.Action("Add", "Home", new { id=item.CalorieItemId })'">
+
+            @if(item.ImagePath != null)
+            {
+                <td><img loading="lazy"  class="img-rounded" src="@Url.Content(item.ImagePath)" height="125" width="125" /></td>
+            }
+            else
+            {
+                <td></td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink(item.Category.Name, "FoodIndex", "Home", new { @catId = item.Category.CategoryId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calories)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServingSize)
+            </td>
+            <td>
+
+                @Html.ActionLink("Details", "Add", new { id = item.CalorieItemId }, new { @class = "btn btn-warning" })
+
+            </td>
+        </tr>
+    }
+
+
+    @if (User.IsInRole("Member") )
+    {
+        <tr>
+            <td><img class="img-rounded" height="125" width="125" src="~/Content/Images/CalorieItemImages/dog_ate_img.jpeg" /></td>
+            <td>
+                Item you are looking for not here? Make your own!
+            </td>
+            <td> </td>
+            <td></td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Create", "CreateCustom", "Home", null, new { @class = "btn btn-warning" })
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("FoodIndex", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

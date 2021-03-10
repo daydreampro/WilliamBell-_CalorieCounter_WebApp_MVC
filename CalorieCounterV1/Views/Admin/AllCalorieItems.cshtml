@@ -1,0 +1,132 @@
+﻿@using CalorieCounterV1.Models
+@model PagedList.IPagedList<CalorieCounterV1.Models.CalorieItem>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Admin - Calorie Items";
+}
+
+    <h2>Admin - Calorie Items</h2>
+<div>
+
+    @using (Html.BeginForm())
+    {
+        <p>
+            Search @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+
+    @if (ViewBag.CurrentCat == null || ViewBag.CurrentCat == 0)
+    {
+        <button class="btn btn-primary">All</button>
+    }
+    else
+    {
+        @Html.ActionLink("All", "AllCalorieItems", "Home", new { @class = "btn btn-info" })
+    }
+
+    <b>   </b>
+
+    @foreach (Category item in ViewBag.Categories)
+    {
+        if (item.CategoryId == ViewBag.CurrentCat)
+        {
+            <button class="btn btn-primary">@item.Name</button>
+        }
+        else
+        {
+            @Html.ActionLink(item.Name, "AllCalorieItems", "Admin", new { @catId = item.CategoryId }, new { @class = "btn btn-info" })
+        }
+        <b></b>
+    }
+    @if (ViewBag.Other == true)
+    {
+        if (ViewBag.CurrentCat == 0)
+        {
+            <button class="btn btn-primary">Other</button>
+        }
+        else
+        {
+            @Html.ActionLink("Other", "AllCategorieItems", "Admin", new { @catId = 0 }, new { @class = "btn btn-info" })
+        }
+    }
+</div>
+<hr />
+<p >
+    @Html.ActionLink("Back", "Index", "Admin", new { @class = "btn btn-default" })
+    <b>   </b> 
+    @Html.ActionLink("Create New", "CreateCalorieItem", "Admin", new { @class = "btn btn-default" })
+
+</p>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.ActionLink("Name", "AllCalorieItems", "Admin", new { sortOrder = ViewBag.NameSort, currentFilter = ViewBag.CurrentFilter }, null)
+        </th>
+        <th>
+            @Html.ActionLink("Calories", "AllCalorieItems", "Admin", new { sortOrder = ViewBag.CalorieSort, currentFilter = ViewBag.CurrentFilter }, null)
+        </th>
+        <th>
+            Carbohydrates
+        </th>
+        <th>
+            Protein
+        </th>
+        <th>
+            Fat
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr onlcick="href = '@Url.Action("EditCalorieItem","Admin",new { id = item.CalorieItemId })'">
+            @if(item.ImagePath != null)
+            {
+                <td><img class="img-rounded" src="@Url.Content(item.ImagePath)" height="125" width="125" /></td>
+            }
+            else
+            {
+                <td></td>
+            }
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calories)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Carbs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Protein)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServingSize)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCalorieItem", new { id = item.CalorieItemId }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Delete", "DeleteCalorieItem", new { id = item.CalorieItemId }, new { @class = "btn btn-danger" ,onclick = "return confirm('Are you sure you?')" })
+            </td>
+        </tr>
+        }
+
+    </table>
+
+<br/>
+Page @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page=> Url.Action("AllCalorieItems", new { page,sortOrder=ViewBag.CurrentSort,currentFilter = ViewBag.CurrentFilter}))
+<hr />

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CalorieCounterV1.Models.TempCalorieItem>
+
+@{
+    ViewBag.Title = "Admin - Requests";
+}
+
+    <h2>Admin - Requests</h2>
+@Html.ActionLink("Back","Index","Admin", new { @class = "btn btn-default"})
+@if (!String.IsNullOrEmpty(ViewBag.ReqMessage))
+{
+    <p>@ViewBag.ReqMessage</p>
+}
+<hr />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Calories)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Carbs)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Protein)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fat)
+        </th>
+        <th>
+            Serving Size
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Calories)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Carbs)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Protein)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServingSize)
+        </td>
+        <td>
+            @Html.ActionLink("Review", "ReviewRequest", new { id=item.TempCalorieItemId },new { @class = "btn btn-warning" }) 
+            @Html.ActionLink("Reject", "DenyRequest", new { id=item.TempCalorieItemId },new { @class = "btn btn-danger",onclick="return confirm('Reject?')"})
+        </td>
+    </tr>
+}
+
+</table>

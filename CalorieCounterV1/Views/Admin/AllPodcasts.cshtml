@@ -1,0 +1,67 @@
+﻿@model IEnumerable<CalorieCounterV1.Models.Podcast>
+
+@{
+    ViewBag.Title = "Admin - Podcasts";
+}
+
+    <h2>Admin - Podcasts</h2>
+
+<p>
+    @Html.ActionLink("Add", "CreatePodcast","Admin",null,new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.SeasonNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpisodeNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (!String.IsNullOrEmpty(item.ImagePath))
+            {
+                <img  src="@Url.Content(item.ImagePath)" height="125" width="125"/>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeasonNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpisodeNumber)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditPodcast", new { id=item.PodcastId }, new { @class = "btn btn-warning"})
+            @Html.ActionLink("Delete", "DeletePodcast", new { id=item.PodcastId }, new { @class = "btn btn-danger",onclick="return confirm('Are you sure you?')"  })
+        </td>
+    </tr>
+}
+
+</table>

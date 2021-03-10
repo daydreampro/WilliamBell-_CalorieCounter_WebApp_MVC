@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CalorieCounterV1.Models.Feature>
+@using CalorieCounterV1.Models
+
+@{
+    ViewBag.Title = "Admin - Website Features";
+}
+
+<h2>Admin - Website Features</h2>
+<h4>Active Features</h4>
+<p>
+    @Html.ActionLink("Back", "Index", "Admin", new { @class = "btn btn-default" }) @Html.ActionLink("Edit Features", "EditFeatures", "Admin", new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    
+    <tr>
+        @{// MESSY SHIT, I KNOW!
+            int count = 1;
+            foreach (var item in Model)
+            {
+                if (item.IsFeature == true)
+                {
+                    <th><p>@item.Description</p><img src="@Url.Content(item.ImagePath)" class="img-thumbnail" /></th>
+                    count++;
+                }
+
+            }
+            if(count <= 3)
+            {
+                for(int i = count; i <= 3; i++)
+                {
+                    <th>None</th>
+                }
+            }
+        }
+    </tr>
+</table>
+
+<hr />
+<h4>All Features</h4>
+<p>
+    @Html.ActionLink("Back", "Index", "Admin", new { @class = "btn btn-default" }) @Html.ActionLink("Create Feature", "CreateFeature", "Admin", new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Description
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Image
+        </th>
+
+        <th>
+            Link
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            <img src="@Url.Content(item.ImagePath)" class="img-thumbnail" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Link)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditFeature","Admin", new { id=item.FeatureId }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Delete", "DeleteFeature", "Admin", new { id=item.FeatureId }, new { @class = "btn btn-danger",onclick = "return confirm('Are you sure you?')" })
+        </td>
+    </tr>
+}
+
+</table>

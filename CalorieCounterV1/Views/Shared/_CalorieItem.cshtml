@@ -1,0 +1,17 @@
+﻿@model CalorieCounterV1.Models.CalorieItem
+@using CalorieCounterV1.Models
+
+
+<div class="col-sm-4 col-lg-4 col-md-4" onclick="location.href='@Url.Action("Add","Home",new { id = Model.CalorieItemId })'">
+    <div class="thumbnail">
+        <img src="@Url.Content(Model.ImagePath)" />
+        <div class="caption">
+            <h3 class="pull-right">@Model.Calories</h3>
+            <h3>
+                <a>@Model.Name</a>
+            </h3>
+            <p>@Model.Info()</p>
+        </div>
+    </div>
+</div>
+

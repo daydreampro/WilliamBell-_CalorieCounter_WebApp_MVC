@@ -1,0 +1,108 @@
+﻿@model DailyCountsDetailViewModel
+@using CalorieCounterV1.Models
+@Scripts.Render("~/Scripts/pj_no.js")
+@{
+    ViewBag.Title = "Calorie Count Details";
+}
+<h2>Calorie Count Details</h2>
+<h3>@ViewBag.Count</h3>
+
+<p>
+    @Html.ActionLink("Back", "Index", "Member", new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit Count", "EditCount", "Member" ,new { id = Model.DailyCalorieCountId}, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Add Item", "FoodIndex", new { controller = "Home" }, new { @class = "btn btn-info" })
+</p>
+<table class="table table-hover">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Calries
+        </th>
+        <th>
+            Carbs
+        </th>
+        <th>
+            Protein
+        </th>
+        <th>
+            Fat
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.CalorieItemIntakes)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CalorieItem.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Calculator.SumStringCal(item.CalorieItem.Calories, item.Quantity, item.CalorieItem.ServingSize)
+            </td>
+            <td>
+                @Calculator.SumString(item.CalorieItem.Carbs, item.Quantity, item.CalorieItem.ServingSize)
+            </td>
+            <td>
+                @Calculator.SumString(item.CalorieItem.Protein, item.Quantity, item.CalorieItem.ServingSize)
+            </td>
+            <td>
+                @Calculator.SumString(item.CalorieItem.Fat, item.Quantity, item.CalorieItem.ServingSize)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCalorieItem", new { id = item.CalorieItemIntakeId }, new { @class = "btn btn-warning" }) <b>   </b> @*update qnatity*@
+                @Html.ActionLink("Remove", "DeleteCalorieItem", new { id = item.CalorieItemIntakeId }, new { @class = "btn btn-danger" , onclick="return confirm('Are you sure you?')"})
+
+                @*<span id="confirmDeleteSpan_@item.CalorieItemIntakeId" style="display:none">
+            <span>Are you sure you want to remove item?</span>
+            @Html.ActionLink("Yes", "Delete", new { id = item.CalorieItemIntakeId }, new { @class = "btn btn-danger" })
+            <a href="#" class="btn btn-info" onclick="confirmDelete('@item.CalorieItemIntakeId',false)">No</a>
+        </span>
+
+        <span id="deleteSpan">
+            <a href="#" class="btn btn-warning" onlclick="confrimDelete('@item.CalorieItemIntakeId',true)">Delete</a>
+        </span>*@
+
+                @*remove from count*@
+
+
+
+            </td>
+        </tr>
+    }
+    @foreach(var item in Model.TempCalorieItems)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem =>item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ServingSize)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem =>item.Calories)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Carbs)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Protein)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem =>item.Fat)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "EditTempItem", new { id = item.TempCalorieItemId }, new { @class = "btn btn-warning" }) <b>   </b> @*update qnatity*@
+        @Html.ActionLink("Remove", "DeleteTempItem", new { id = item.TempCalorieItemId }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you?')" })
+        </td>
+</tr>
+    }
+
+</table>

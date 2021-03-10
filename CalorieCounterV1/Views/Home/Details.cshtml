@@ -1,0 +1,67 @@
+﻿@model CalorieCounterV1.Models.CalorieItem
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.Name</h2>
+
+<div>
+    <h4>@Html.ActionLink(Model.Category.Name, "Index", new { @catId = Model.CategoryId })</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Calories)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Calories)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Carbs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Carbs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Protein)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Protein)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServingSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServingSize)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Add", "Add", new { id = Model.CalorieItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

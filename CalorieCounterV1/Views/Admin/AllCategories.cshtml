@@ -1,0 +1,32 @@
+﻿
+@model IEnumerable<CalorieCounterV1.Models.Category>
+
+@{
+    ViewBag.Title = "Admin - Categories";
+}
+
+<h2>Admin - Categories</h2>
+
+<p>
+    @Html.ActionLink("Back","Index","Admin", new { @class = "btn btn-default" }) @Html.ActionLink("Create New", "CreateCategory","Admin",new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Category Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditCategory", new { id=item.CategoryId },new { @class = "btn btn-warning" }) 
+        </td>
+    </tr>
+}
+
+</table>
